@@ -1,7 +1,7 @@
 package com.learn.expense_tracker.auth;
 
 import com.learn.expense_tracker.auth.response.AuthResponse;
-import com.learn.expense_tracker.common.util.JwtUtil;
+import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,22 +19,22 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authManager;
     private final UserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
 
-    public AuthService(UserRepository userRepository, AuthenticationManager authManager, UserDetailsService userDetailsService, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, AuthenticationManager authManager, UserDetailsService userDetailsService, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.authManager = authManager;
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
+        this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
     }
 
     public AuthResponse login(String username, String password) {
         authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         UserDetails user = userDetailsService.loadUserByUsername(username);
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user);
         return new AuthResponse(token);
     }
 
