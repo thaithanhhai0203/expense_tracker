@@ -26,9 +26,7 @@ public class CategoryService {
     }
 
     public List<CategoryResponse> getAll() {
-
         List<Category> categories = this.categoryRepository.findAll();
-
         return categories.stream()
                 .map(CategoryMapper::toResponse)
                 .collect(Collectors.toList());
