@@ -35,33 +35,35 @@ public class CategoryService {
     }
 
     public CategoryResponse getById(Long id) {
-        Category foundCategory = this.categoryRepository.findById(id).orElseThrow(()->new ApiException("Category not found"));
-        return CategoryMapper.toResponse(foundCategory);
+        Category existingCategory = this.categoryRepository.findById(id).orElseThrow(()->new ApiException("Category not found"));
+        return CategoryMapper.toResponse(existingCategory);
     }
 
     public String save(CategoryRequest categoryRequest, String token) {
-        Optional<Category> foundUser = this.categoryRepository.findByName(categoryRequest.getName());
-        if(foundUser.isPresent()) {
+        Long userId = jwtService.extractUserId(token);
+        Optional<Category> existingUser = this.categoryRepository.findByNameAndUserId(categoryRequest.getName(), userId);
+        if(existingUser.isPresent()) {
             return "Category already exists";
         }
 
-        Long userId = jwtService.extractUserId(token);
         User user = this.userRepository.findById(userId).orElseThrow(()->new ApiException("User not found"));
         Category category = CategoryMapper.toEntity(categoryRequest, user);
         this.categoryRepository.save(category);
         return "Category saved";
     }
 
-    public String update(Long id, CategoryRequest categoryRequest) {
-        Category foundCategory = this.categoryRepository.findById(id).orElseThrow(()->new ApiException("Category not found"));
+    public String update(Long id, CategoryRequest categoryRequest, String token) {
+        Long userId = jwtService.extractUserId(token);
+        Category foundCategory = this.categoryRepository.findByIdAndUserId(id, userId).orElseThrow(()-> new ApiException("Category not found"));
         foundCategory.setName(categoryRequest.getName());
         foundCategory.setIcon(categoryRequest.getIcon());
         this.categoryRepository.save(foundCategory);
         return "Category updated";
     }
 
-    public String delete(Long id) {
-        Category foundCategory = this.categoryRepository.findById(id).orElseThrow(()->new ApiException("Category not found"));
+    public String delete(Long id, String token) {
+        Long userId = jwtService.extractUserId(token);
+        Category foundCategory = this.categoryRepository.findByIdAndUserId(id, userId).orElseThrow(()->new ApiException("Category not found"));
         this.categoryRepository.delete(foundCategory);
         return "Category deleted";
     }

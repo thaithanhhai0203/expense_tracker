@@ -43,13 +43,15 @@ public class CategoryController {
 
     @Operation(summary = "Update category")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
-        return ResponseEntity.ok(ApiResponse.success(this.categoryService.update(id,categoryRequest), "Updated category"));
+    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        return ResponseEntity.ok(ApiResponse.success(this.categoryService.update(id,categoryRequest,token), "Updated category"));
     }
 
     @Operation(summary = "Delete category")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.success(this.categoryService.delete(id), "Deleted category"));
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        return ResponseEntity.ok(ApiResponse.success(this.categoryService.delete(id, token), "Deleted category"));
     }
 }
