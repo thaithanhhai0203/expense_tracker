@@ -12,23 +12,25 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice
 public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
-    @Override
-    public boolean supports(@NonNull MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+  @Override
+  public boolean supports(
+      @NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+    return true;
+  }
+
+  @Override
+  public Object beforeBodyWrite(
+      Object body,
+      @NonNull MethodParameter returnType,
+      @NonNull MediaType selectedContentType,
+      @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
+      @NonNull ServerHttpRequest request,
+      @NonNull ServerHttpResponse response) {
+
+    if (body instanceof ApiResponse<?>) {
+      return body;
     }
 
-    @Override
-    public Object beforeBodyWrite(Object body,
-                                  @NonNull MethodParameter returnType,
-                                  @NonNull MediaType selectedContentType,
-                                  @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
-                                  @NonNull ServerHttpRequest request,
-                                  @NonNull ServerHttpResponse response) {
-
-        if (body instanceof ApiResponse<?>) {
-            return body;
-        }
-
-        return ApiResponse.success(body);
-    }
+    return ApiResponse.success(body);
+  }
 }

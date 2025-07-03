@@ -52,8 +52,7 @@ public class CategoryController {
 
   @Operation(summary = "Delete category")
   @DeleteMapping("/{id}")
-  public String delete(
-      @PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+  public String delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");
     return this.categoryService.delete(id, token);
   }
