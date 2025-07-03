@@ -1,22 +1,32 @@
 package com.learn.expense_tracker.common.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
 public class ApiResponse<T> {
-  private Boolean status;
+  private String status;
   private String message;
   private T data;
 
-  public static <T> ApiResponse<T> success(T data, String message) {
-    return new ApiResponse<>(true, message, data);
+  public ApiResponse(String status, String message, T data) {
+    this.status = status;
+    this.message = message;
+    this.data = data;
+  }
+
+  public static <T> ApiResponse<T> success(T data) {
+    return new ApiResponse<>("success", "OK", data);
+  }
+
+  public static <T> ApiResponse<T> success(String message, T data) {
+    return new ApiResponse<>("success", message, data);
   }
 
   public static <T> ApiResponse<T> error(String message) {
-    return new ApiResponse<>(false, message, null);
+    return new ApiResponse<>("error", message, null);
   }
 }

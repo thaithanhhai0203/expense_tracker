@@ -1,11 +1,9 @@
 package com.learn.expense_tracker.user;
 
-import com.learn.expense_tracker.common.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "User", description = "Info User")
@@ -21,19 +19,19 @@ public class UserController {
 
   @Operation(summary = "Get user list")
   @GetMapping
-  public ResponseEntity<ApiResponse<List<User>>> getAll() {
-    return ResponseEntity.ok(ApiResponse.success(userService.findAll(), "Fetch users"));
+  public List<User> getAll() {
+    return userService.findAll();
   }
 
   @Operation(summary = "Add user")
   @PostMapping
-  public ResponseEntity<ApiResponse<User>> create(@RequestBody User user) {
-    return ResponseEntity.ok(ApiResponse.success(userService.save(user), "User created"));
+  public User create(@RequestBody User user) {
+    return userService.save(user);
   }
 
   @Operation(summary = "Get user by id")
   @GetMapping("/{id}")
-  public ResponseEntity<ApiResponse<User>> getById(@PathVariable Long id) {
-    return ResponseEntity.ok(ApiResponse.success(userService.getById(id), "User found"));
+  public User getById(@PathVariable Long id) {
+    return userService.getById(id);
   }
 }
