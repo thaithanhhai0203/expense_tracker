@@ -14,7 +14,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
   @Override
   public boolean supports(
-      @NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+      @NonNull MethodParameter returnType,
+      @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
     return true;
   }
 
