@@ -24,7 +24,8 @@ public class AuthController {
   public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
     return ResponseEntity.ok(
         ApiResponse.success(
-            authService.register(request.username(), request.password()), "Register success"));
+            authService.register(request.getUsername(), request.getPassword()),
+            "Register success"));
   }
 
   @Operation(summary = "Login")
@@ -32,6 +33,6 @@ public class AuthController {
   public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody AuthRequest request) {
     return ResponseEntity.ok(
         ApiResponse.success(
-            authService.login(request.username(), request.password()), "Login success"));
+            authService.login(request.getUsername(), request.getPassword()), "Login success"));
   }
 }
