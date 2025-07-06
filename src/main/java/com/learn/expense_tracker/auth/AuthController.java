@@ -3,8 +3,10 @@ package com.learn.expense_tracker.auth;
 import com.learn.expense_tracker.auth.request.AuthRequest;
 import com.learn.expense_tracker.auth.request.RegisterRequest;
 import com.learn.expense_tracker.auth.response.AuthResponse;
+import com.learn.expense_tracker.common.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth", description = "Login & Register")
