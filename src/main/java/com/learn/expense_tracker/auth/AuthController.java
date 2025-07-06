@@ -9,26 +9,25 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name="Auth", description = "Login & Register")
+@Tag(name = "Auth", description = "Login & Register")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final AuthService authService;
+  private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+  public AuthController(AuthService authService) {
+    this.authService = authService;
+  }
 
-    @Operation(summary = "Register")
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.register(request.username(), request.password()), "Register success"));
-    }
+  @Operation(summary = "Register")
+  @PostMapping("/register")
+  public String register(@RequestBody RegisterRequest request) {
+    return this.authService.register(request.getUsername(), request.getPassword());
+  }
 
-    @Operation(summary = "Login")
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.login(request.username(), request.password()), "Login success"));
-    }
+  @Operation(summary = "Login")
+  @PostMapping("/login")
+  public AuthResponse login(@RequestBody AuthRequest request) {
+    return this.authService.login(request.getUsername(), request.getPassword());
+  }
 }
-
