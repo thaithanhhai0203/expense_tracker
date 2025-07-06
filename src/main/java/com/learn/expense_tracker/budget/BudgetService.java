@@ -5,8 +5,6 @@ import com.learn.expense_tracker.budget.request.BudgetRequest;
 import com.learn.expense_tracker.budget.response.BudgetResponse;
 import com.learn.expense_tracker.category.Category;
 import com.learn.expense_tracker.category.CategoryRepository;
-import com.learn.expense_tracker.category.mapper.CategoryMapper;
-import com.learn.expense_tracker.category.response.CategoryResponse;
 import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;

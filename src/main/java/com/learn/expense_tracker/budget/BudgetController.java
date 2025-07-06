@@ -2,7 +2,6 @@ package com.learn.expense_tracker.budget;
 
 import com.learn.expense_tracker.budget.request.BudgetRequest;
 import com.learn.expense_tracker.budget.response.BudgetResponse;
-import com.learn.expense_tracker.category.response.CategoryResponse;
 import com.learn.expense_tracker.common.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
