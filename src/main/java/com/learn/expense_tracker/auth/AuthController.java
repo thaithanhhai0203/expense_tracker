@@ -21,16 +21,13 @@ public class AuthController {
 
   @Operation(summary = "Register")
   @PostMapping("/register")
-  public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-    return ResponseEntity.ok(
-        ApiResponse.success(
-            authService.register(request.getUsername(), request.getPassword()),
-            "Register success"));
+  public String register(@RequestBody RegisterRequest request) {
+    return this.authService.register(request.getUsername(), request.getPassword());
   }
 
   @Operation(summary = "Login")
   @PostMapping("/login")
   public AuthResponse login(@RequestBody AuthRequest request) {
-    return authService.login(request.getUsername(), request.getPassword());
+    return this.authService.login(request.getUsername(), request.getPassword());
   }
 }
