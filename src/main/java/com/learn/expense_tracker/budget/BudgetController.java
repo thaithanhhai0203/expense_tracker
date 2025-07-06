@@ -28,10 +28,30 @@ public class BudgetController {
         return this.budgetService.getAll();
     }
 
+    @Operation(summary = "Get budget detail")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<BudgetResponse>> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(this.budgetService.getById(id)));
+    }
+
     @Operation(summary = "Create budget")
     @PostMapping
     public ResponseEntity<ApiResponse<String>> create(@RequestBody BudgetRequest budgetRequest,  @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
-        return ResponseEntity.ok(ApiResponse.success(this.budgetService.save(budgetRequest, token), "Created budget"));
+        return ResponseEntity.ok(ApiResponse.success(this.budgetService.save(budgetRequest, token)));
+    }
+
+    @Operation(summary = "Update budget")
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody BudgetRequest budgetRequest, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+       return ResponseEntity.ok(ApiResponse.success(this.budgetService.update(id, budgetRequest, token)));
+    }
+
+    @Operation(summary = "Delete budget")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        return ResponseEntity.ok(ApiResponse.success(this.budgetService.delete(id, token)));
     }
 }

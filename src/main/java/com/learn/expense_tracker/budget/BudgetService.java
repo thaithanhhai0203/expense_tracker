@@ -35,13 +35,42 @@ public class BudgetService {
                 .collect(Collectors.toList());
     }
 
+    public BudgetResponse getById(Long id) {
+        Budget existingBudget =
+                this.budgetRepository
+                        .findById(id)
+                        .orElseThrow(() -> new ApiException("Budget not found"));
+        return BudgetMapper.toResponse(existingBudget);
+    }
+
     public String save(BudgetRequest budgetRequest, String token) {
         Long userId = jwtService.extractUserId(token);
         Category category = this.categoryRepository.findById(budgetRequest.getCategoryId()).orElseThrow(()->new ApiException("Category not found"));
 
         User user = this.userRepository.findById(userId).orElseThrow(()->new ApiException("User not found"));
         Budget budget = BudgetMapper.toEntity(budgetRequest, category, user);
+
         this.budgetRepository.save(budget);
-        return "Category saved";
+        return "Budget saved";
+    }
+
+    public String update(Long id, BudgetRequest budgetRequest, String token) {
+        Long userId = jwtService.extractUserId(token);
+        Budget foundBudget = this.budgetRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new ApiException("Budget not found"));
+
+        foundBudget.setAmountLimit(budgetRequest.getAmountLimit());
+        foundBudget.setMonth(budgetRequest.getMonth());
+        this.budgetRepository.save(foundBudget);
+        return "Budget updated";
+    }
+
+    public String delete(Long id, String token) {
+        Long userId = jwtService.extractUserId(token);
+        Budget foundBudget =
+                this.budgetRepository
+                        .findByIdAndUserId(id, userId)
+                        .orElseThrow(() -> new ApiException("Budget not found"));
+        this.budgetRepository.delete(foundBudget);
+        return "Budget deleted";
     }
 }
