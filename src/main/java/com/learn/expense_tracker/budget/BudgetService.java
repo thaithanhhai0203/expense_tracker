@@ -9,6 +9,8 @@ import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,15 +41,15 @@ public class BudgetService {
         Budget existingBudget =
                 this.budgetRepository
                         .findById(id)
-                        .orElseThrow(() -> new ApiException("Budget not found"));
+                        .orElseThrow(() -> new ApiException("Budget not found", HttpStatus.BAD_REQUEST));
         return BudgetMapper.toResponse(existingBudget);
     }
 
     public String save(BudgetRequest budgetRequest, String token) {
         Long userId = jwtService.extractUserId(token);
-        Category category = this.categoryRepository.findById(budgetRequest.getCategoryId()).orElseThrow(()->new ApiException("Category not found"));
+        Category category = this.categoryRepository.findById(budgetRequest.getCategoryId()).orElseThrow(()->new ApiException("Category not found", HttpStatus.BAD_REQUEST));
 
-        User user = this.userRepository.findById(userId).orElseThrow(()->new ApiException("User not found"));
+        User user = this.userRepository.findById(userId).orElseThrow(()->new ApiException("User not found", HttpStatus.BAD_REQUEST));
         Budget budget = BudgetMapper.toEntity(budgetRequest, category, user);
 
         this.budgetRepository.save(budget);
@@ -56,7 +58,7 @@ public class BudgetService {
 
     public String update(Long id, BudgetRequest budgetRequest, String token) {
         Long userId = jwtService.extractUserId(token);
-        Budget foundBudget = this.budgetRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new ApiException("Budget not found"));
+        Budget foundBudget = this.budgetRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new ApiException("Budget not found", HttpStatus.BAD_REQUEST));
 
         foundBudget.setAmountLimit(budgetRequest.getAmountLimit());
         foundBudget.setMonth(budgetRequest.getMonth());
@@ -69,7 +71,7 @@ public class BudgetService {
         Budget foundBudget =
                 this.budgetRepository
                         .findByIdAndUserId(id, userId)
-                        .orElseThrow(() -> new ApiException("Budget not found"));
+                        .orElseThrow(() -> new ApiException("Budget not found", HttpStatus.BAD_REQUEST));
         this.budgetRepository.delete(foundBudget);
         return "Budget deleted";
     }

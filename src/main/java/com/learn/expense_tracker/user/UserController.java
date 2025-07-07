@@ -4,7 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import com.learn.expense_tracker.user.request.UserRequest;
+import com.learn.expense_tracker.user.response.UserResponse;
 
 @Tag(name = "User", description = "Info User")
 @RestController
@@ -19,19 +24,22 @@ public class UserController {
 
   @Operation(summary = "Get user list")
   @GetMapping
-  public List<User> getAll() {
+  @ResponseStatus(HttpStatus.OK)
+  public List<UserResponse> getAll() {
     return userService.findAll();
   }
 
   @Operation(summary = "Add user")
   @PostMapping
-  public User create(@RequestBody User user) {
-    return userService.save(user);
+  @ResponseStatus(HttpStatus.CREATED)
+  public String create(@RequestBody UserRequest userRequest) {
+    return userService.save(userRequest);
   }
 
   @Operation(summary = "Get user by id")
   @GetMapping("/{id}")
-  public User getById(@PathVariable Long id) {
+  @ResponseStatus(HttpStatus.OK)
+  public UserResponse getById(@PathVariable Long id) {
     return userService.getById(id);
   }
 }

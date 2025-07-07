@@ -10,6 +10,8 @@ import com.learn.expense_tracker.user.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,7 +36,7 @@ public class CategoryService {
     Category existingCategory =
         this.categoryRepository
             .findById(id)
-            .orElseThrow(() -> new ApiException("Category not found"));
+            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
     return CategoryMapper.toResponse(existingCategory);
   }
 
@@ -47,7 +49,7 @@ public class CategoryService {
     }
 
     User user =
-        this.userRepository.findById(userId).orElseThrow(() -> new ApiException("User not found"));
+        this.userRepository.findById(userId).orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
     Category category = CategoryMapper.toEntity(categoryRequest, user);
     this.categoryRepository.save(category);
     return "Category saved";
@@ -58,7 +60,7 @@ public class CategoryService {
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Category not found"));
+            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
     foundCategory.setName(categoryRequest.getName());
     foundCategory.setIcon(categoryRequest.getIcon());
     this.categoryRepository.save(foundCategory);
@@ -70,7 +72,7 @@ public class CategoryService {
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Category not found"));
+            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
     this.categoryRepository.delete(foundCategory);
     return "Category deleted";
   }

@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Category", description = "Info Category")
@@ -27,6 +29,7 @@ public class CategoryController {
 
   @Operation(summary = "Create category")
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public String create(
       @RequestBody CategoryRequest categoryRequest,
       @RequestHeader("Authorization") String authHeader) {
@@ -36,12 +39,14 @@ public class CategoryController {
 
   @Operation(summary = "Get category detail")
   @GetMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
   public CategoryResponse getById(@PathVariable Long id) {
     return this.categoryService.getById(id);
   }
 
   @Operation(summary = "Update category")
   @PutMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
   public String update(
       @PathVariable Long id,
       @RequestBody CategoryRequest categoryRequest,
@@ -52,6 +57,7 @@ public class CategoryController {
 
   @Operation(summary = "Delete category")
   @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public String delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");
     return this.categoryService.delete(id, token);
