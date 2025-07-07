@@ -7,7 +7,6 @@ import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +36,8 @@ public class AuthService {
     User user =
         userRepository
             .findByUsername(username)
-            .orElseThrow(() -> new ApiException("Invalid username or password", HttpStatus.UNAUTHORIZED));
+            .orElseThrow(
+                () -> new ApiException("Invalid username or password", HttpStatus.UNAUTHORIZED));
     String token = jwtService.generateToken(user);
     return new AuthResponse(token);
   }

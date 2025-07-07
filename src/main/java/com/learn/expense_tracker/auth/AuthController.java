@@ -3,10 +3,8 @@ package com.learn.expense_tracker.auth;
 import com.learn.expense_tracker.auth.request.AuthRequest;
 import com.learn.expense_tracker.auth.request.RegisterRequest;
 import com.learn.expense_tracker.auth.response.AuthResponse;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

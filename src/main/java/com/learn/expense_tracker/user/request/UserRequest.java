@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 public class UserRequest {
-    @NotBlank(message = "username must not be blank")
-    private String username;
+  @NotBlank(message = "username must not be blank")
+  private String username;
 
-    @NotBlank(message = "password must not be blank")
-    private String password;
-    
-    @NotBlank(message = "role must not be blank")
-    private String role;
+  @NotBlank(message = "password must not be blank")
+  private String password;
+
+  @NotBlank(message = "role must not be blank")
+  private String role;
 }

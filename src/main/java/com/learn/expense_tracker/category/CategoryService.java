@@ -10,7 +10,6 @@ import com.learn.expense_tracker.user.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +48,9 @@ public class CategoryService {
     }
 
     User user =
-        this.userRepository.findById(userId).orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
+        this.userRepository
+            .findById(userId)
+            .orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
     Category category = CategoryMapper.toEntity(categoryRequest, user);
     this.categoryRepository.save(category);
     return "Category saved";

@@ -5,15 +5,15 @@ import lombok.Data;
 
 @Data
 public class TransactionRequest {
-    @NotBlank(message = "Amount not be blank")
-    private Double amount;
+  @NotBlank(message = "Amount not be blank")
+  private Double amount;
 
-    @NotBlank(message = "Type not be blank")
-    private String type;
+  @NotBlank(message = "Type not be blank")
+  private String type;
 
-    @NotBlank( message = "Note be not blank")
-    private String note;
+  @NotBlank(message = "Note be not blank")
+  private String note;
 
-    @NotBlank(message = "Category not be blank")
-    private Long categoryId;
+  @NotBlank(message = "Category not be blank")
+  private Long categoryId;
 }

@@ -4,9 +4,7 @@ import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.user.mapper.UserMapper;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
-
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,10 @@ public class UserService {
   }
 
   public UserResponse getById(Long id) {
-    User user = userRepository.findById(id).orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
+    User user =
+        userRepository
+            .findById(id)
+            .orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
     return UserMapper.toResponse(user);
   }
 }
