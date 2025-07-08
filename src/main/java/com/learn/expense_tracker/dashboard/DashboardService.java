@@ -2,10 +2,7 @@ package com.learn.expense_tracker.dashboard;
 
 import com.learn.expense_tracker.dashboard.mapper.DashboardMapper;
 import com.learn.expense_tracker.dashboard.response.DashboardResponse;
-import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.transaction.Transaction;
-import com.learn.expense_tracker.transaction.mapper.TransactionMapper;
-import com.learn.expense_tracker.transaction.response.TransactionResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
