@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface DashboardRepository extends JpaRepository<Transaction, Long> {
-    @Query("SELECT t FROM Transaction t left join Category c WHERE t.createdAt BETWEEN :from AND :to")
+    @Query("SELECT t FROM Transaction t LEFT JOIN t.category c WHERE t.createdAt BETWEEN :from AND :to")
     List<Transaction> findAllByDateBetween(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
 }
