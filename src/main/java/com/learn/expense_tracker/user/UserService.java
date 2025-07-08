@@ -28,7 +28,8 @@ public class UserService {
   }
 
   public UserResponse getById(Long id) {
-    User user = userRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
+    User user =
+        userRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     return UserMapper.toResponse(user);
   }
 }

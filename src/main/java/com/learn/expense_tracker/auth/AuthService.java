@@ -37,8 +37,7 @@ public class AuthService {
     User user =
         userRepository
             .findByUsername(username)
-            .orElseThrow(
-                () -> new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD));
+            .orElseThrow(() -> new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD));
     String token = jwtService.generateToken(user);
     return new AuthResponse(token);
   }

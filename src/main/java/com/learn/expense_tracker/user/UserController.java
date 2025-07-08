@@ -1,5 +1,6 @@
 package com.learn.expense_tracker.user;
 
+import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,8 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import com.learn.expense_tracker.common.dto.SuccessCode;
 
 @Tag(name = "User", description = "Info User")
 @RestController

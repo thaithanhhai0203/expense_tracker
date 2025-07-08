@@ -49,7 +49,9 @@ public class CategoryService {
     }
 
     User user =
-        this.userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
+        this.userRepository
+            .findById(userId)
+            .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     Category category = CategoryMapper.toEntity(categoryRequest, user);
     this.categoryRepository.save(category);
     return SuccessCode.CATEGORY_CREATED;

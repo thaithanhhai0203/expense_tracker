@@ -3,7 +3,6 @@ package com.learn.expense_tracker.category;
 import com.learn.expense_tracker.category.request.CategoryRequest;
 import com.learn.expense_tracker.category.response.CategoryResponse;
 import com.learn.expense_tracker.common.dto.SuccessCode;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,7 +58,8 @@ public class CategoryController {
   @Operation(summary = "Delete category")
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public SuccessCode delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+  public SuccessCode delete(
+      @PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");
     return this.categoryService.delete(id, token);
   }

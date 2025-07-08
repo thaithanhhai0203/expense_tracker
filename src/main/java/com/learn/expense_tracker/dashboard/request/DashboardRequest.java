@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class DashboardRequest {
-    @NotBlank(message = "Year-month must not be blank")
-    private String yearMonth;
-
+  @NotBlank(message = "Year-month must not be blank")
+  private String yearMonth;
 }

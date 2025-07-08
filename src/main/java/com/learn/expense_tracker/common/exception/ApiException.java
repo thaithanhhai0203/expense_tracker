@@ -1,8 +1,7 @@
 package com.learn.expense_tracker.common.exception;
 
-import org.springframework.http.HttpStatus;
-
 import com.learn.expense_tracker.common.dto.ErrorCode;
+import org.springframework.http.HttpStatus;
 
 public class ApiException extends RuntimeException {
   private final HttpStatus status;
