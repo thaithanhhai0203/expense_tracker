@@ -3,6 +3,8 @@ package com.learn.expense_tracker.category;
 import com.learn.expense_tracker.category.mapper.CategoryMapper;
 import com.learn.expense_tracker.category.request.CategoryRequest;
 import com.learn.expense_tracker.category.response.CategoryResponse;
+import com.learn.expense_tracker.common.dto.ErrorCode;
+import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
@@ -11,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,44 +37,44 @@ public class CategoryService {
     Category existingCategory =
         this.categoryRepository
             .findById(id)
-            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
     return CategoryMapper.toResponse(existingCategory);
   }
 
-  public String save(CategoryRequest categoryRequest, String token) {
+  public SuccessCode save(CategoryRequest categoryRequest, String token) {
     Long userId = jwtService.extractUserId(token);
     Optional<Category> existingUser =
         this.categoryRepository.findByNameAndUserId(categoryRequest.getName(), userId);
     if (existingUser.isPresent()) {
-      return "Category already exists";
+      throw new ApiException(ErrorCode.CATEGORY_ALREADY_EXISTS);
     }
 
     User user =
-        this.userRepository.findById(userId).orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
+        this.userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
     Category category = CategoryMapper.toEntity(categoryRequest, user);
     this.categoryRepository.save(category);
-    return "Category saved";
+    return SuccessCode.CATEGORY_CREATED;
   }
 
-  public String update(Long id, CategoryRequest categoryRequest, String token) {
+  public SuccessCode update(Long id, CategoryRequest categoryRequest, String token) {
     Long userId = jwtService.extractUserId(token);
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
     foundCategory.setName(categoryRequest.getName());
     foundCategory.setIcon(categoryRequest.getIcon());
     this.categoryRepository.save(foundCategory);
-    return "Category updated";
+    return SuccessCode.CATEGORY_UPDATED;
   }
 
-  public String delete(Long id, String token) {
+  public SuccessCode delete(Long id, String token) {
     Long userId = jwtService.extractUserId(token);
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
     this.categoryRepository.delete(foundCategory);
-    return "Category deleted";
+    return SuccessCode.CATEGORY_DELETED;
   }
 }

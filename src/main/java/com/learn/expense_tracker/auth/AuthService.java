@@ -1,14 +1,14 @@
 package com.learn.expense_tracker.auth;
 
 import com.learn.expense_tracker.auth.response.AuthResponse;
+import com.learn.expense_tracker.common.dto.ErrorCode;
+import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import java.util.Optional;
 import java.util.Set;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,15 +37,16 @@ public class AuthService {
     User user =
         userRepository
             .findByUsername(username)
-            .orElseThrow(() -> new ApiException("Invalid username or password", HttpStatus.UNAUTHORIZED));
+            .orElseThrow(
+                () -> new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD));
     String token = jwtService.generateToken(user);
     return new AuthResponse(token);
   }
 
-  public String register(String username, String password) {
+  public SuccessCode register(String username, String password) {
     Optional<User> existingUser = userRepository.findByUsername(username);
     if (existingUser.isPresent()) {
-      throw new ApiException("User already exists", HttpStatus.BAD_REQUEST);
+      throw new ApiException(ErrorCode.USER_ALREADY_EXISTS);
     }
     User user = new User();
     user.setUsername(username);
@@ -53,6 +54,6 @@ public class AuthService {
     user.setRole(Set.of("ROLE_USER"));
 
     userRepository.save(user);
-    return "Registered successfully";
+    return SuccessCode.USER_REGISTERED;
   }
 }

@@ -3,6 +3,7 @@ package com.learn.expense_tracker.auth;
 import com.learn.expense_tracker.auth.request.AuthRequest;
 import com.learn.expense_tracker.auth.request.RegisterRequest;
 import com.learn.expense_tracker.auth.response.AuthResponse;
+import com.learn.expense_tracker.common.dto.SuccessCode;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +24,7 @@ public class AuthController {
   @Operation(summary = "Register")
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
-  public String register(@RequestBody RegisterRequest request) {
+  public SuccessCode register(@RequestBody RegisterRequest request) {
     return this.authService.register(request.getUsername(), request.getPassword());
   }
 

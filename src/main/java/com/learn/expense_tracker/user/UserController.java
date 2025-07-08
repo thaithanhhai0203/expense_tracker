@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
 
@@ -32,7 +33,7 @@ public class UserController {
   @Operation(summary = "Add user")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public String create(@RequestBody UserRequest userRequest) {
+  public SuccessCode create(@RequestBody UserRequest userRequest) {
     return userService.save(userRequest);
   }
 

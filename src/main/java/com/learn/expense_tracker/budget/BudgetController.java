@@ -2,6 +2,8 @@ package com.learn.expense_tracker.budget;
 
 import com.learn.expense_tracker.budget.request.BudgetRequest;
 import com.learn.expense_tracker.budget.response.BudgetResponse;
+import com.learn.expense_tracker.common.dto.SuccessCode;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,21 +36,21 @@ public class BudgetController {
 
     @Operation(summary = "Create budget")
     @PostMapping
-    public String create(@RequestBody BudgetRequest budgetRequest,  @RequestHeader("Authorization") String authHeader) {
+    public SuccessCode create(@RequestBody BudgetRequest budgetRequest,  @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         return this.budgetService.save(budgetRequest, token);
     }
 
     @Operation(summary = "Update budget")
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @RequestBody BudgetRequest budgetRequest, @RequestHeader("Authorization") String authHeader) {
+    public SuccessCode update(@PathVariable Long id, @RequestBody BudgetRequest budgetRequest, @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         return this.budgetService.update(id, budgetRequest, token);
     }
 
     @Operation(summary = "Delete budget")
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+    public SuccessCode delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         return this.budgetService.delete(id, token);
     }
