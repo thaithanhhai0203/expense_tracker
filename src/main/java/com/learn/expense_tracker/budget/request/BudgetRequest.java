@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 public class BudgetRequest {
-    @NotBlank(message = "Amount limit not be blank")
-    private Long amountLimit;
+  @NotBlank(message = "Amount limit not be blank")
+  private Long amountLimit;
 
-    @NotBlank(message = "Amount limit not be blank")
-    private Long month;
+  @NotBlank(message = "Amount limit not be blank")
+  private Long month;
 
-    @NotBlank(message = "Category not be blank")
-    private Long categoryId;
+  @NotBlank(message = "Category not be blank")
+  private Long categoryId;
 }

@@ -11,32 +11,30 @@ import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
-
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BudgetService {
-    private final BudgetRepository budgetRepository;
-    private final JwtService jwtService;
-    private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
+  private final BudgetRepository budgetRepository;
+  private final JwtService jwtService;
+  private final CategoryRepository categoryRepository;
+  private final UserRepository userRepository;
 
-    public BudgetService(BudgetRepository budgetRepository, JwtService jwtService, CategoryRepository categoryRepository, UserRepository userRepository){
-        this.budgetRepository = budgetRepository;
-        this.jwtService = jwtService;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
-    }
+  public BudgetService(
+      BudgetRepository budgetRepository,
+      JwtService jwtService,
+      CategoryRepository categoryRepository,
+      UserRepository userRepository) {
+    this.budgetRepository = budgetRepository;
+    this.jwtService = jwtService;
+    this.categoryRepository = categoryRepository;
+    this.userRepository = userRepository;
+  }
 
-    public List<BudgetResponse> getAll() {
-        List<Budget> budgets = this.budgetRepository.findAll();
-        return budgets.stream()
-                .map(BudgetMapper::toResponse)
-                .collect(Collectors.toList());
-    }
+  public List<BudgetResponse> getAll() {
+    List<Budget> budgets = this.budgetRepository.findAll();
+    return budgets.stream().map(BudgetMapper::toResponse).collect(Collectors.toList());
+  }
 
     public BudgetResponse getById(Long id) {
         Budget existingBudget =

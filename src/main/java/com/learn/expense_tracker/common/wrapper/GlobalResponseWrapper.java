@@ -17,11 +17,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @ControllerAdvice
 public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
 
-    @Autowired
-    private HttpServletRequest httpServletRequest;
+  @Autowired private HttpServletRequest httpServletRequest;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   public boolean supports(

@@ -6,9 +6,7 @@ import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.user.mapper.UserMapper;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service
