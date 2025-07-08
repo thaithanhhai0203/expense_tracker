@@ -8,7 +8,8 @@ public enum ErrorCode {
   USER_NOT_FOUND("User not found", HttpStatus.BAD_REQUEST),
   CATEGORY_NOT_FOUND("Category not found", HttpStatus.BAD_REQUEST),
   CATEGORY_ALREADY_EXISTS("Category already exists", HttpStatus.BAD_REQUEST),
-  BUDGET_NOT_FOUND("Budget not found", HttpStatus.BAD_REQUEST);
+  BUDGET_NOT_FOUND("Budget not found", HttpStatus.BAD_REQUEST),
+  TRANSACTION_NOT_FOUND("Transaction not found", HttpStatus.BAD_REQUEST);
 
   private final String message;
   private final HttpStatus httpStatus;

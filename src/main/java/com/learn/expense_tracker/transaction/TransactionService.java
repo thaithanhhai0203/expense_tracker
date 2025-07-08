@@ -2,6 +2,8 @@ package com.learn.expense_tracker.transaction;
 
 import com.learn.expense_tracker.category.Category;
 import com.learn.expense_tracker.category.CategoryRepository;
+import com.learn.expense_tracker.common.dto.ErrorCode;
+import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.transaction.mapper.TransactionMapper;
@@ -12,7 +14,6 @@ import com.learn.expense_tracker.user.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,48 +43,48 @@ public class TransactionService {
     Transaction existingTransaction =
         this.transactionRepository
             .findById(id)
-            .orElseThrow(() -> new ApiException("Transaction not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.TRANSACTION_NOT_FOUND));
     return TransactionMapper.toResponse(existingTransaction);
   }
 
-  public String save(TransactionRequest transactionRequest, String token) {
+  public SuccessCode save(TransactionRequest transactionRequest, String token) {
     Long userId = jwtService.extractUserId(token);
     Category category =
         this.categoryRepository
             .findById(transactionRequest.getCategoryId())
-            .orElseThrow(() -> new ApiException("Category not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
 
     User user =
         this.userRepository
             .findById(userId)
-            .orElseThrow(() -> new ApiException("User not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
 
     Transaction transaction = TransactionMapper.toEntity(transactionRequest, category, user);
     this.transactionRepository.save(transaction);
-    return "Transaction saved";
+    return SuccessCode.TRANSACTION_CREATED;
   }
 
-  public String update(Long id, TransactionRequest transactionRequest, String token) {
+  public SuccessCode update(Long id, TransactionRequest transactionRequest, String token) {
     Long userId = jwtService.extractUserId(token);
     Transaction foundTransaction =
         this.transactionRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Transaction not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.TRANSACTION_NOT_FOUND));
 
     foundTransaction.setAmount(transactionRequest.getAmount());
     foundTransaction.setType(transactionRequest.getType());
     foundTransaction.setNote(transactionRequest.getNote());
     this.transactionRepository.save(foundTransaction);
-    return "Transaction updated";
+    return SuccessCode.TRANSACTION_UPDATED;
   }
 
-  public String delete(Long id, String token) {
+  public SuccessCode delete(Long id, String token) {
     Long userId = jwtService.extractUserId(token);
     Transaction foundTransaction =
         this.transactionRepository
             .findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ApiException("Transaction not found", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException(ErrorCode.TRANSACTION_NOT_FOUND));
     this.transactionRepository.delete(foundTransaction);
-    return "Transaction Deleted";
+    return SuccessCode.TRANSACTION_DELETED;
   }
 }

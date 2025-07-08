@@ -8,7 +8,10 @@ public enum SuccessCode {
   CATEGORY_DELETED("Category deleted successfully"),
   BUDGET_CREATED("Budget created successfully"),
   BUDGET_UPDATED("Budget updated successfully"),
-  BUDGET_DELETED("Budget deleted successfully");
+  BUDGET_DELETED("Budget deleted successfully"),
+  TRANSACTION_CREATED("Transaction created successfully"),
+  TRANSACTION_UPDATED("Transaction updated successfully"),
+  TRANSACTION_DELETED("Transaction deleted successfully");
 
   private final String message;
 
