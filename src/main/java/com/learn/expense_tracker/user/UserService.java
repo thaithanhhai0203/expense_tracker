@@ -64,14 +64,16 @@ public class UserService {
   return SuccessCode.USER_UPDATED;
   }
 
-//  public SuccessCode changePw(ChangePwRequest changePwRequest, String token) {
-//    Long userId = jwtService.extractUserId(token);
-//    User foundUser =
-//            this.userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
-//
-//    if (!passwordEncoder.matches(, foundUser.getPassword())) {
-//      throw new ApiException(ErrorCode.INVALID_OLD_PASSWORD);
-//    }
-//    return SuccessCode.USER_UPDATED;
-//  }
+  public SuccessCode changePw(ChangePwRequest changePwRequest, String token) {
+    Long userId = jwtService.extractUserId(token);
+    User foundUser =
+            this.userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
+
+    if (!passwordEncoder.matches(changePwRequest.getOldPw(), foundUser.getPassword())) {
+      throw new ApiException(ErrorCode.INVALID_OLD_PASSWORD);
+    }
+    foundUser.setPassword(passwordEncoder.encode(changePwRequest.getNewPw()));
+    userRepository.save(foundUser);
+    return SuccessCode.USER_UPDATED;
+  }
 }

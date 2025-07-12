@@ -9,15 +9,14 @@ import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
   private final UserRepository userRepository;
-  private final AuthenticationManager authManager;
   private final JwtService jwtService;
   private final PasswordEncoder passwordEncoder;
 
@@ -26,18 +25,21 @@ public class AuthService {
       AuthenticationManager authManager,
       JwtService jwtService,
       PasswordEncoder passwordEncoder) {
-    this.authManager = authManager;
     this.userRepository = userRepository;
     this.jwtService = jwtService;
     this.passwordEncoder = passwordEncoder;
   }
 
   public AuthResponse login(String username, String password) {
-    authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     User user =
         userRepository
             .findByUsername(username)
             .orElseThrow(() -> new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD));
+    Boolean isMatchPassword =
+        passwordEncoder.matches(password, user.getPassword());
+    if (!isMatchPassword) {
+      throw new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD);
+    }
     String token = jwtService.generateToken(user);
     return new AuthResponse(token);
   }
