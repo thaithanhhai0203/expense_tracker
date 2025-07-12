@@ -49,7 +49,7 @@ public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
         return objectMapper.writeValueAsString(ApiResponse.success(body));
       }
 
-      if (body instanceof ApiResponse && "error".equals(((ApiResponse) body).getStatus())) {
+      if (body instanceof ApiResponse<?> && "error".equals(((ApiResponse<?>) body).getStatus())) {
         return body;
       }
 

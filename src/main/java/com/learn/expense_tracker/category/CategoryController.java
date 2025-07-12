@@ -2,7 +2,10 @@ package com.learn.expense_tracker.category;
 
 import com.learn.expense_tracker.category.request.CategoryRequest;
 import com.learn.expense_tracker.category.response.CategoryResponse;
+import com.learn.expense_tracker.common.annotation.CurrentUser;
 import com.learn.expense_tracker.common.dto.SuccessCode;
+import com.learn.expense_tracker.user.User;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,25 +26,23 @@ public class CategoryController {
 
   @Operation(summary = "Get list of categories")
   @GetMapping
-  public List<CategoryResponse> getAll() {
-    return this.categoryService.getAll();
+  public List<CategoryResponse> getAll(@CurrentUser User user) {
+    return this.categoryService.getAll(user.getId());
   }
 
   @Operation(summary = "Create category")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public SuccessCode create(
-      @RequestBody CategoryRequest categoryRequest,
-      @RequestHeader("Authorization") String authHeader) {
-    String token = authHeader.replace("Bearer ", "");
-    return this.categoryService.save(categoryRequest, token);
+      @RequestBody CategoryRequest categoryRequest, @CurrentUser User user) {
+    return this.categoryService.save(categoryRequest, user.getId());
   }
 
   @Operation(summary = "Get category detail")
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public CategoryResponse getById(@PathVariable Long id) {
-    return this.categoryService.getById(id);
+  public CategoryResponse getById(@PathVariable Long id, @CurrentUser User user) {
+    return this.categoryService.getById(id, user.getId());
   }
 
   @Operation(summary = "Update category")
@@ -50,17 +51,15 @@ public class CategoryController {
   public SuccessCode update(
       @PathVariable Long id,
       @RequestBody CategoryRequest categoryRequest,
-      @RequestHeader("Authorization") String authHeader) {
-    String token = authHeader.replace("Bearer ", "");
-    return this.categoryService.update(id, categoryRequest, token);
+      @CurrentUser User user) {
+    return this.categoryService.update(id, categoryRequest, user.getId());
   }
 
   @Operation(summary = "Delete category")
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ResponseStatus(HttpStatus.OK)
   public SuccessCode delete(
-      @PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
-    String token = authHeader.replace("Bearer ", "");
-    return this.categoryService.delete(id, token);
+      @PathVariable Long id, @CurrentUser User user) {
+    return this.categoryService.delete(id, user.getId());
   }
 }

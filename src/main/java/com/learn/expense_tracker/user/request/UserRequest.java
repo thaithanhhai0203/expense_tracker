@@ -22,3 +22,4 @@ public class UserRequest {
   @NotBlank(message = "role must not be blank")
   private String role;
 }
+  
