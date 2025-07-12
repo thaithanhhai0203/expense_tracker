@@ -9,6 +9,7 @@ import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
