@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BudgetService {
   private final BudgetRepository budgetRepository;
-  private final JwtService jwtService;
   private final CategoryRepository categoryRepository;
   private final UserRepository userRepository;
 
@@ -28,19 +27,16 @@ public class BudgetService {
       CategoryRepository categoryRepository,
       UserRepository userRepository) {
     this.budgetRepository = budgetRepository;
-    this.jwtService = jwtService;
     this.categoryRepository = categoryRepository;
     this.userRepository = userRepository;
   }
 
-  public List<BudgetResponse> getAll(String token) {
-    Long userId = jwtService.extractUserId(token);
+  public List<BudgetResponse> getAll(Long userId) {
     List<Budget> budgets = this.budgetRepository.findByUserId(userId);
     return budgets.stream().map(BudgetMapper::toResponse).collect(Collectors.toList());
   }
 
-  public BudgetResponse getById(Long id, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public BudgetResponse getById(Long id, Long userId) {
     Budget existingBudget =
         this.budgetRepository
             .findByIdAndUserId(id, userId)
@@ -48,8 +44,7 @@ public class BudgetService {
     return BudgetMapper.toResponse(existingBudget);
   }
 
-  public SuccessCode save(BudgetRequest budgetRequest, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode save(BudgetRequest budgetRequest, Long userId) {
     User user =
         this.userRepository
             .findById(userId)
@@ -66,8 +61,7 @@ public class BudgetService {
     return SuccessCode.BUDGET_CREATED;
   }
 
-  public SuccessCode update(Long id, BudgetRequest budgetRequest, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode update(Long id, BudgetRequest budgetRequest, Long userId) {
     Budget existingBudget =
         this.budgetRepository
             .findByIdAndUserId(id, userId)
@@ -79,8 +73,7 @@ public class BudgetService {
     return SuccessCode.BUDGET_UPDATED;
   }
 
-  public SuccessCode delete(Long id, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode delete(Long id, Long userId) {
     Budget existingBudget =
         this.budgetRepository
             .findByIdAndUserId(id, userId)

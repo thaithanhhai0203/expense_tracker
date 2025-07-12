@@ -17,24 +17,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryService {
   private final CategoryRepository categoryRepository;
-  private final JwtService jwtService;
   private final UserRepository userRepository;
 
   public CategoryService(
       CategoryRepository categoryRepository, JwtService jwtService, UserRepository userRepository) {
     this.categoryRepository = categoryRepository;
-    this.jwtService = jwtService;
     this.userRepository = userRepository;
   }
 
-  public List<CategoryResponse> getAll(String token) {
-    Long userId = jwtService.extractUserId(token);
+  public List<CategoryResponse> getAll(Long userId) {
     List<Category> categories = this.categoryRepository.findByUserId(userId);
     return categories.stream().map(CategoryMapper::toResponse).collect(Collectors.toList());
   }
 
-  public CategoryResponse getById(Long id, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public CategoryResponse getById(Long id, Long userId) {
     Category existingCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
@@ -42,8 +38,7 @@ public class CategoryService {
     return CategoryMapper.toResponse(existingCategory);
   }
 
-  public SuccessCode save(CategoryRequest categoryRequest, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode save(CategoryRequest categoryRequest, Long userId) {
     Optional<Category> existingUser =
         this.categoryRepository.findByNameAndUserId(categoryRequest.getName(), userId);
     if (existingUser.isPresent()) {
@@ -59,8 +54,7 @@ public class CategoryService {
     return SuccessCode.CATEGORY_CREATED;
   }
 
-  public SuccessCode update(Long id, CategoryRequest categoryRequest, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode update(Long id, CategoryRequest categoryRequest, Long userId) {
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)
@@ -71,8 +65,7 @@ public class CategoryService {
     return SuccessCode.CATEGORY_UPDATED;
   }
 
-  public SuccessCode delete(Long id, String token) {
-    Long userId = jwtService.extractUserId(token);
+  public SuccessCode delete(Long id, Long userId) {
     Category foundCategory =
         this.categoryRepository
             .findByIdAndUserId(id, userId)

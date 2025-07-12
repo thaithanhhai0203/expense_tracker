@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
   Optional<Transaction> findByIdAndUserId(Long id, Long userId);
 
-  @Query("SELECT t FROM Transaction t WHERE t.createdAt BETWEEN :from AND :to")
-  List<Transaction> findAllByDateBetween(
-      @Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
+  @Query("SELECT t FROM Transaction t WHERE t.createdAt BETWEEN :from AND :to AND t.user.id = :userId")
+  List<Transaction> findAllByDateBetweenAndUserId(
+      @Param("from") LocalDateTime from, @Param("to") LocalDateTime to, @Param("userId") Long userId);
 }

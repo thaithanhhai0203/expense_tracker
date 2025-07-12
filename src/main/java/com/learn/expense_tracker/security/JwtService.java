@@ -55,7 +55,11 @@ public class JwtService {
     return extractUsername(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
   }
 
-  private boolean isTokenExpired(String token) {
+  public String extractRole(String token) {
+    return extractClaim(token, claims -> claims.get("roles", String.class));
+  }
+
+  public boolean isTokenExpired(String token) {
     Date expiration =
         Jwts.parserBuilder()
             .setSigningKey(getSignKey())
