@@ -23,8 +23,9 @@ public class CategoryController {
 
   @Operation(summary = "Get list of categories")
   @GetMapping
-  public List<CategoryResponse> getAll() {
-    return this.categoryService.getAll();
+  public List<CategoryResponse> getAll(@RequestHeader("Authorization") String authHeader) {
+    String token = authHeader.replace("Bearer ", "");
+    return this.categoryService.getAll(token);
   }
 
   @Operation(summary = "Create category")
@@ -40,8 +41,9 @@ public class CategoryController {
   @Operation(summary = "Get category detail")
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public CategoryResponse getById(@PathVariable Long id) {
-    return this.categoryService.getById(id);
+  public CategoryResponse getById(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+    String token = authHeader.replace("Bearer ", "");
+    return this.categoryService.getById(id, token);
   }
 
   @Operation(summary = "Update category")
@@ -57,7 +59,7 @@ public class CategoryController {
 
   @Operation(summary = "Delete category")
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ResponseStatus(HttpStatus.OK)
   public SuccessCode delete(
       @PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");

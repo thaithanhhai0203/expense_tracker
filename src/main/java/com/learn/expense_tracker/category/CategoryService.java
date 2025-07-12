@@ -27,15 +27,17 @@ public class CategoryService {
     this.userRepository = userRepository;
   }
 
-  public List<CategoryResponse> getAll() {
-    List<Category> categories = this.categoryRepository.findAll();
+  public List<CategoryResponse> getAll(String token) {
+    Long userId = jwtService.extractUserId(token);
+    List<Category> categories = this.categoryRepository.findByUserId(userId);
     return categories.stream().map(CategoryMapper::toResponse).collect(Collectors.toList());
   }
 
-  public CategoryResponse getById(Long id) {
+  public CategoryResponse getById(Long id, String token) {
+    Long userId = jwtService.extractUserId(token);
     Category existingCategory =
         this.categoryRepository
-            .findById(id)
+            .findByIdAndUserId(id, userId)
             .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
     return CategoryMapper.toResponse(existingCategory);
   }

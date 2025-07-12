@@ -22,14 +22,16 @@ public class BudgetController {
 
   @Operation(summary = "Get list of budgets")
   @GetMapping
-  public List<BudgetResponse> getAll() {
-    return this.budgetService.getAll();
+  public List<BudgetResponse> getAll(@RequestHeader("Authorization") String authHeader) {
+    String token = authHeader.replace("Bearer ", "");
+    return this.budgetService.getAll(token);
   }
 
   @Operation(summary = "Get budget detail")
   @GetMapping("/{id}")
-  public BudgetResponse getById(@PathVariable Long id) {
-    return this.budgetService.getById(id);
+  public BudgetResponse getById(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+    String token = authHeader.replace("Bearer ", "");
+    return this.budgetService.getById(id, token);
   }
 
   @Operation(summary = "Create budget")

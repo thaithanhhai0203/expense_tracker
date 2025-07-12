@@ -33,30 +33,33 @@ public class BudgetService {
     this.userRepository = userRepository;
   }
 
-  public List<BudgetResponse> getAll() {
-    List<Budget> budgets = this.budgetRepository.findAll();
+  public List<BudgetResponse> getAll(String token) {
+    Long userId = jwtService.extractUserId(token);
+    List<Budget> budgets = this.budgetRepository.findByUserId(userId);
     return budgets.stream().map(BudgetMapper::toResponse).collect(Collectors.toList());
   }
 
-  public BudgetResponse getById(Long id) {
+  public BudgetResponse getById(Long id, String token) {
+    Long userId = jwtService.extractUserId(token);
     Budget existingBudget =
         this.budgetRepository
-            .findById(id)
+            .findByIdAndUserId(id, userId)
             .orElseThrow(() -> new ApiException(ErrorCode.BUDGET_NOT_FOUND));
     return BudgetMapper.toResponse(existingBudget);
   }
 
   public SuccessCode save(BudgetRequest budgetRequest, String token) {
     Long userId = jwtService.extractUserId(token);
-    Category category =
-        this.categoryRepository
-            .findById(budgetRequest.getCategoryId())
-            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
-
     User user =
         this.userRepository
             .findById(userId)
             .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
+
+    Category category =
+        this.categoryRepository
+            .findByIdAndUserId(budgetRequest.getCategoryId(), userId)
+            .orElseThrow(() -> new ApiException(ErrorCode.CATEGORY_NOT_FOUND));
+
     Budget budget = BudgetMapper.toEntity(budgetRequest, category, user);
 
     this.budgetRepository.save(budget);
