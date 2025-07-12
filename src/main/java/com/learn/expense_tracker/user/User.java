@@ -12,6 +12,7 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,6 +31,12 @@ public class User {
 
   @Column(name = "password")
   private String password;
+
+  @Column(name="email", unique = true, nullable = false)
+  private String email;
+
+  @Column(name = "avatar")
+  private String avatar;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @Column(name = "role")

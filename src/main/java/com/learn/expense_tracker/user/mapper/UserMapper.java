@@ -24,6 +24,8 @@ public class UserMapper {
     UserResponse response = new UserResponse();
     response.setId(user.getId());
     response.setUsername(user.getUsername());
+    response.setEmail(user.getEmail());
+    response.setAvatar(user.getAvatar());
     response.setRole(String.join(",", user.getRole()));
     response.setCreatedAt(user.getCreatedAt());
     return response;
