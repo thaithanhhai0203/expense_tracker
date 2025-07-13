@@ -63,7 +63,7 @@ public class UserController {
   }
 
   @Operation(summary = "Change Password")
-  @PutMapping("/change-password")
+  @PutMapping("/me/change-password")
   @ResponseStatus(HttpStatus.OK)
   public SuccessCode changePw(@RequestBody ChangePwRequest changePwRequest, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");
@@ -71,7 +71,7 @@ public class UserController {
   }
 
   @Operation(summary = "Reset Password")
-  @PutMapping("/reset-password")
+  @PutMapping("/me/reset-password")
   @ResponseStatus(HttpStatus.OK)
   public SuccessCode resetPw(@RequestBody ResetPwRequest resetPwRequest) {
     return this.userService.resetPw(resetPwRequest);
