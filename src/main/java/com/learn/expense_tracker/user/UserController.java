@@ -3,6 +3,7 @@ package com.learn.expense_tracker.user;
 import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.request.ChangePwRequest;
+import com.learn.expense_tracker.user.request.ResetPwRequest;
 import com.learn.expense_tracker.user.request.UpdateRequest;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
@@ -67,5 +68,12 @@ public class UserController {
   public SuccessCode changePw(@RequestBody ChangePwRequest changePwRequest, @RequestHeader("Authorization") String authHeader) {
     String token = authHeader.replace("Bearer ", "");
     return this.userService.changePw(changePwRequest, token);
+  }
+
+  @Operation(summary = "Reset Password")
+  @PutMapping("/reset-password")
+  @ResponseStatus(HttpStatus.OK)
+  public SuccessCode resetPw(@RequestBody ResetPwRequest resetPwRequest) {
+    return this.userService.resetPw(resetPwRequest);
   }
 }

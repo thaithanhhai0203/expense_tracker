@@ -6,6 +6,7 @@ import com.learn.expense_tracker.common.exception.ApiException;
 import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.mapper.UserMapper;
 import com.learn.expense_tracker.user.request.ChangePwRequest;
+import com.learn.expense_tracker.user.request.ResetPwRequest;
 import com.learn.expense_tracker.user.request.UpdateRequest;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
@@ -54,13 +55,13 @@ public class UserService {
   User foundUser =
         this.userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
 
-  if (userRepository.existsByEmail(updateRequest.getEmail())) {
+  if (this.userRepository.existsByEmail(updateRequest.getEmail())) {
       throw new ApiException(ErrorCode.EMAIL_ALREADY_EXISTS);
   }
   foundUser.setUsername(updateRequest.getUsername());
   foundUser.setEmail(updateRequest.getEmail());
   foundUser.setAvatar(updateRequest.getAvatar());
-  userRepository.save(foundUser);
+  this.userRepository.save(foundUser);
   return SuccessCode.USER_UPDATED;
   }
 
@@ -73,7 +74,16 @@ public class UserService {
       throw new ApiException(ErrorCode.INVALID_OLD_PASSWORD);
     }
     foundUser.setPassword(passwordEncoder.encode(changePwRequest.getNewPw()));
-    userRepository.save(foundUser);
+    this.userRepository.save(foundUser);
+    return SuccessCode.USER_UPDATED;
+  }
+
+  public SuccessCode resetPw(ResetPwRequest resetPwRequest) {
+    if (!this.userRepository.existsByEmail(resetPwRequest.getEmail())) {
+      throw new ApiException(ErrorCode.EMAIL_NOT_REGISTERED);
+    }
+    User foundUser = this.userRepository.findByEmail(resetPwRequest.getEmail()).orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
+
     return SuccessCode.USER_UPDATED;
   }
 }
