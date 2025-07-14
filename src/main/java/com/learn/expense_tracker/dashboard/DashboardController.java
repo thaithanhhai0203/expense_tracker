@@ -1,5 +1,6 @@
 package com.learn.expense_tracker.dashboard;
 
+import com.learn.expense_tracker.common.annotation.RequireRoles;
 import com.learn.expense_tracker.dashboard.response.DashboardResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,6 +26,7 @@ public class DashboardController {
   }
 
   @Operation(summary = "Get dashboards")
+  @RequireRoles({"ADMIN", "USER"})
   @GetMapping
   public List<DashboardResponse> getAll(@RequestParam("yearMonth") String yearMonth) {
     YearMonth ym = YearMonth.parse(yearMonth);

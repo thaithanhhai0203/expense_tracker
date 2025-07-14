@@ -9,7 +9,6 @@ import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,7 @@ public class AuthService {
         userRepository
             .findByUsername(username)
             .orElseThrow(() -> new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD));
-    Boolean isMatchPassword =
-        passwordEncoder.matches(password, user.getPassword());
+    Boolean isMatchPassword = passwordEncoder.matches(password, user.getPassword());
     if (!isMatchPassword) {
       throw new ApiException(ErrorCode.INVALID_USERNAME_OR_PASSWORD);
     }

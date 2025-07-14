@@ -31,7 +31,8 @@ public class TransactionService {
   }
 
   public List<TransactionResponse> getAll(LocalDateTime from, LocalDateTime to, Long userId) {
-    List<Transaction> transactions = this.transactionRepository.findAllByDateBetweenAndUserId(from, to, userId);
+    List<Transaction> transactions =
+        this.transactionRepository.findAllByDateBetweenAndUserId(from, to, userId);
     return transactions.stream().map(TransactionMapper::toResponse).collect(Collectors.toList());
   }
 
