@@ -5,6 +5,8 @@ import com.learn.expense_tracker.common.annotation.RequireRoles;
 import com.learn.expense_tracker.common.dto.ErrorCode;
 import com.learn.expense_tracker.common.exception.ApiException;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.valueextraction.Unwrapping.Skip;
+
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +33,12 @@ public class MethodSecurityCheckAspect {
   public void checkSecurityAnnotation(JoinPoint joinPoint) {
     MethodSignature signature = (MethodSignature) joinPoint.getSignature();
     Method method = signature.getMethod();
+
+    // Skip Swagger / SpringDoc controllers
+    String path = signature.getMethod().getDeclaringClass().getName();
+    if (path.contains("springdoc") || path.contains("swagger") || path.contains("OpenApi")) {
+        return;
+    }
 
     // If method or class is annotated with @Public, skip security checks
     if (method.isAnnotationPresent(Public.class)
