@@ -1,6 +1,8 @@
 package com.learn.expense_tracker.budget.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BudgetResponse {
   private Long id;
   private Long amountLimit;
-  private Long month;
+  private int type;
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime createdAt;
