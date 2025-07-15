@@ -31,6 +31,12 @@ public class User {
   @Column(name = "password")
   private String password;
 
+  @Column(name = "email", unique = true, nullable = false)
+  private String email;
+
+  @Column(name = "avatar")
+  private String avatar;
+
   @ElementCollection(fetch = FetchType.EAGER)
   @Column(name = "role")
   private Set<String> role;

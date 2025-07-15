@@ -1,32 +1,58 @@
 package com.learn.expense_tracker.common.dto;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 public class ApiResponse<T> {
   private String status;
-  private String message;
+  private String errorCode;
+
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime timestamp;
+
   private T data;
 
-  public ApiResponse(String status, String message, T data) {
-    this.status = status;
-    this.message = message;
+  public ApiResponse(ErrorCode errorCode) {
+    this.status = "error";
+    this.errorCode = errorCode.getMessage();
+    this.timestamp = LocalDateTime.now();
+    this.data = null;
+  }
+
+  public ApiResponse(String message) {
+    this.status = "error";
+    this.errorCode = message;
+    this.timestamp = LocalDateTime.now();
+    this.data = null;
+  }
+
+  public ApiResponse(String message, T data) {
+    this.status = "success";
+    this.errorCode = message;
+    this.timestamp = LocalDateTime.now();
     this.data = data;
   }
 
-  public static <T> ApiResponse<T> success(T data) {
-    return new ApiResponse<>("success", "OK", data);
+  public ApiResponse(String message, String status) {
+    this.status = status;
+    this.errorCode = message;
+    this.timestamp = LocalDateTime.now();
+    this.data = null;
   }
 
-  public static <T> ApiResponse<T> success(String message, T data) {
-    return new ApiResponse<>("success", message, data);
+  public static <T> ApiResponse<T> error(ErrorCode errorCode) {
+    return new ApiResponse<>(errorCode);
   }
 
   public static <T> ApiResponse<T> error(String message) {
-    return new ApiResponse<>("error", message, null);
+    return new ApiResponse<>(message);
+  }
+
+  public static <T> ApiResponse<T> success(T data) {
+    return new ApiResponse<>(null, data);
   }
 }
