@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
   Optional<Budget> findByIdAndUserId(Long id, Long userId);
+
   List<Budget> findByUserId(Long userId);
 }

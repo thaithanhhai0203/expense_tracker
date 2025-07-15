@@ -1,11 +1,11 @@
 package com.learn.expense_tracker.transaction;
 
 import com.learn.expense_tracker.common.annotation.CurrentUser;
+import com.learn.expense_tracker.common.annotation.RequireRoles;
 import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.transaction.request.TransactionRequest;
 import com.learn.expense_tracker.transaction.response.TransactionResponse;
 import com.learn.expense_tracker.user.User;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +28,7 @@ public class TransactionController {
   }
 
   @Operation(summary = "Get list of transactions")
+  @RequireRoles({"ADMIN", "USER"})
   @GetMapping
   public List<TransactionResponse> getAll(
       @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
@@ -39,12 +40,14 @@ public class TransactionController {
   }
 
   @Operation(summary = "Get transaction detail")
+  @RequireRoles({"ADMIN", "USER"})
   @GetMapping("/{id}")
   public TransactionResponse getById(@PathVariable Long id, @CurrentUser User user) {
     return this.transactionService.getById(id, user.getId());
   }
 
   @Operation(summary = "Create transaction")
+  @RequireRoles({"ADMIN", "USER"})
   @PostMapping
   public SuccessCode create(
       @RequestBody TransactionRequest transactionRequest, @CurrentUser User user) {
@@ -52,6 +55,7 @@ public class TransactionController {
   }
 
   @Operation(summary = "Update transaction")
+  @RequireRoles({"ADMIN", "USER"})
   @PutMapping("/{id}")
   public SuccessCode update(
       @PathVariable Long id,
@@ -61,9 +65,9 @@ public class TransactionController {
   }
 
   @Operation(summary = "Delete transaction")
+  @RequireRoles({"ADMIN", "USER"})
   @DeleteMapping("/{id}")
-  public SuccessCode delete(
-      @PathVariable Long id, @CurrentUser User user) {
+  public SuccessCode delete(@PathVariable Long id, @CurrentUser User user) {
     return this.transactionService.delete(id, user.getId());
   }
 }
