@@ -6,19 +6,19 @@ import lombok.Data;
 
 @Data
 public class UserRequest {
-  @NotBlank(message = "username must not be blank")
+  @NotBlank(message = "Username must not be blank")
   private String username;
 
-  @NotBlank(message = "password must not be blank")
+  @NotBlank(message = "Password must not be blank")
   private String password;
 
-  @NotBlank(message = "email must not be blank")
-  @Email(message = "email is not valid")
+  @NotBlank(message = "Email must not be blank")
+  @Email(message = "Email is not valid")
   private String email;
 
-  @NotBlank(message = "avatar must not be blank")
+  @NotBlank(message = "Avatar must not be blank")
   private String avatar;
 
-  @NotBlank(message = "role must not be blank")
+  @NotBlank(message = "Role must not be blank")
   private String role;
 }

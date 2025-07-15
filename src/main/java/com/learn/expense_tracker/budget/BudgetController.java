@@ -32,7 +32,7 @@ public class BudgetController {
   @Operation(summary = "Get list of budgets")
   @RequireRoles({"ADMIN", "USER"})
   @GetMapping
-  public List<BudgetResponse> getAll(@CurrentUser User user) {
+  public List<BudgetResponse> getAll(@Parameter(hidden = true) @CurrentUser User user) {
     return this.budgetService.getAll(user.getId());
   }
 
