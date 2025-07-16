@@ -9,6 +9,7 @@ import com.learn.expense_tracker.user.request.UpdateRequest;
 import com.learn.expense_tracker.user.request.UserRequest;
 import com.learn.expense_tracker.user.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -42,7 +43,7 @@ public class UserController {
   @Operation(summary = "Get me")
   @GetMapping("/me")
   @RequireRoles({"ADMIN", "USER"})
-  public UserResponse getMe(@CurrentUser User user) {
+  public UserResponse getMe(@Parameter(hidden = true) @CurrentUser User user) {
     return userService.getMe(user.getId());
   }
 
@@ -56,7 +57,7 @@ public class UserController {
   @Operation(summary = "Update my information")
   @PutMapping("/me")
   @RequireRoles({"ADMIN", "USER"})
-  public SuccessCode update(@RequestBody UpdateRequest userRequest, @CurrentUser User user) {
+  public SuccessCode update(@RequestBody UpdateRequest userRequest, @Parameter(hidden = true) @CurrentUser User user) {
     return this.userService.update(userRequest, user.getId());
   }
 
@@ -64,7 +65,7 @@ public class UserController {
   @PutMapping("/change-password")
   @RequireRoles({"ADMIN", "USER"})
   public SuccessCode changePw(
-      @RequestBody ChangePwRequest changePwRequest, @CurrentUser User user) {
+      @RequestBody ChangePwRequest changePwRequest, @Parameter(hidden = true) @CurrentUser User user) {
     return this.userService.changePw(changePwRequest, user.getId());
   }
 }
