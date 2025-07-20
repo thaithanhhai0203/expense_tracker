@@ -3,8 +3,6 @@ package com.learn.expense_tracker.budget;
 import com.learn.expense_tracker.category.Category;
 import com.learn.expense_tracker.user.User;
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;

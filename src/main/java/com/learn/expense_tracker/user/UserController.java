@@ -57,7 +57,8 @@ public class UserController {
   @Operation(summary = "Update my information")
   @PutMapping("/me")
   @RequireRoles({"ADMIN", "USER"})
-  public SuccessCode update(@RequestBody UpdateRequest userRequest, @Parameter(hidden = true) @CurrentUser User user) {
+  public SuccessCode update(
+      @RequestBody UpdateRequest userRequest, @Parameter(hidden = true) @CurrentUser User user) {
     return this.userService.update(userRequest, user.getId());
   }
 
@@ -65,7 +66,8 @@ public class UserController {
   @PutMapping("/change-password")
   @RequireRoles({"ADMIN", "USER"})
   public SuccessCode changePw(
-      @RequestBody ChangePwRequest changePwRequest, @Parameter(hidden = true) @CurrentUser User user) {
+      @RequestBody ChangePwRequest changePwRequest,
+      @Parameter(hidden = true) @CurrentUser User user) {
     return this.userService.changePw(changePwRequest, user.getId());
   }
 }
