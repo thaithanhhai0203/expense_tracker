@@ -21,4 +21,7 @@ public class UserRequest {
 
   @NotBlank(message = "Role must not be blank")
   private String role;
+
+  public UserRequest(String test1, String number, String mail, String avatar, String roleUser) {
+  }
 }

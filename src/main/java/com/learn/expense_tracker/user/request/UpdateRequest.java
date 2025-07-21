@@ -18,4 +18,11 @@ public class UpdateRequest {
 
   @NotBlank(message = "Role must not be blank")
   private String role;
+
+  public UpdateRequest(String username, String email, String avatar, String role) {
+    this.username = username;
+    this.email = email;
+    this.avatar = avatar;
+    this.role = role;
+  }
 }
