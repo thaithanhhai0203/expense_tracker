@@ -5,7 +5,6 @@ import com.learn.expense_tracker.budget.request.BudgetRequest;
 import com.learn.expense_tracker.budget.response.BudgetResponse;
 import com.learn.expense_tracker.category.Category;
 import com.learn.expense_tracker.user.User;
-import java.time.LocalDate;
 
 public class BudgetMapper {
   public static Budget toEntity(BudgetRequest budgetRequest, Category category, User user) {

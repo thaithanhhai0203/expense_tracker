@@ -9,10 +9,8 @@ import com.learn.expense_tracker.common.constants.AppConstants;
 import com.learn.expense_tracker.common.dto.ErrorCode;
 import com.learn.expense_tracker.common.dto.SuccessCode;
 import com.learn.expense_tracker.common.exception.ApiException;
-import com.learn.expense_tracker.security.JwtService;
 import com.learn.expense_tracker.user.User;
 import com.learn.expense_tracker.user.UserRepository;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,14 +41,14 @@ public class BudgetService {
     LocalDateTime from = date.atStartOfDay();
     LocalDateTime to = null;
     if (type == AppConstants.BUDGET_WEEKLY) {
-       to = from.plusWeeks(1);
+      to = from.plusWeeks(1);
     }
 
     if (type == AppConstants.BUDGET_MONTHLY) {
-       to = from.plusMonths(1);
+      to = from.plusMonths(1);
     }
 
-    if(type == AppConstants.BUDGET_YEARLY){
+    if (type == AppConstants.BUDGET_YEARLY) {
       to = from.plusYears(1);
     }
     List<Budget> budgets = this.budgetRepository.findAll(type, from, to, userId);

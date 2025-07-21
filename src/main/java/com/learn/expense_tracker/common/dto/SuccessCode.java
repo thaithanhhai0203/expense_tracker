@@ -12,7 +12,9 @@ public enum SuccessCode {
   BUDGET_DELETED("Budget deleted successfully"),
   TRANSACTION_CREATED("Transaction created successfully"),
   TRANSACTION_UPDATED("Transaction updated successfully"),
-  TRANSACTION_DELETED("Transaction deleted successfully");
+  TRANSACTION_DELETED("Transaction deleted successfully"),
+  PASSWORD_RESET_EMAIL_SENT("Password reset email sent successfully"),
+  PASSWORD_RESET_SUCCESSFUL("Password reset successful");
 
   private final String message;
 

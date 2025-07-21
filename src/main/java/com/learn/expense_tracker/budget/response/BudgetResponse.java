@@ -1,8 +1,6 @@
 package com.learn.expense_tracker.budget.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
